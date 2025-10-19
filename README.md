@@ -1,4 +1,4 @@
-# InfiniteFusionCalculator by vittoema96
+# IFFT- FORKED by TRADNIM
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -17,8 +17,7 @@
 
 
 # 1. Introduction <a id="introduction"></a>
-This project is intended as an improvement on the functionalities 
-of [Pokemon Infinite Fusion Calculator](https://aegide.github.io/).
+This Project works as a resurection of [Infinite Fusion Family Tree]([https://aegide.github.io/](https://github.com/vittoema96/InfiniteFusionCalculator)).
 
 
 # 2. What does it do <a id="explanation"></a>
