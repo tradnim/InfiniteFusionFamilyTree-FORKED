@@ -51,7 +51,7 @@ This tooltip will display:
 
 ## Modes <a id="modes"></a>
 
-This application has 3 modes:
+This application had 3 modes (i tryd to fix Type Mode but i could not figure it out):
 ### Single <a id="single"></a>
 Performs fusion between two Pokemon as described in the [Example](#example) .
 
