@@ -8,7 +8,6 @@
     - [Modes](#modes)
       - [Single](#single) 
       - [Batch](#batch)
-      - [Type](#type)
 3. [Installation](#install)
    - [App .exe](#exe)
      - [Rebuild .exe](#rebuild_exe)
@@ -17,7 +16,7 @@
 
 
 # 1. Introduction <a id="introduction"></a>
-This Project works as a resurection of [Infinite Fusion Family Tree]([https://aegide.github.io/](https://github.com/vittoema96/InfiniteFusionCalculator)).
+This Project works as a revival of [Infinite Fusion Family Tree]([https://aegide.github.io/](https://github.com/vittoema96/InfiniteFusionCalculator)).
 
 
 # 2. What does it do <a id="explanation"></a>
@@ -61,11 +60,6 @@ Given a list ok pokemon, calculates all the possible pairs and performs fusion b
 
 ![Fearow + Ekans](ifc/resources/images/example_batch.jpg)  
 
-### Type <a id="type"></a>
-Given two types and, optionally, a base pokemon, it will show all possible fusions with that typing (and base pokemon).
-Here you can also order the evolutions by stat. The ordering is done by taking the maximum stat for each fusion evoline.
-Only fusion pokemon matching the required types are taken into account for this calculation.
-![Fearow + Ekans](ifc/resources/images/example_type.jpg)  
 
 
 # 3. Installation <a id="install"></a>
@@ -110,22 +104,16 @@ minimum and maximum levels, typings, evolution lines and stats.
 Stats are calculated as stated here:  https://infinitefusion.fandom.com/wiki/Pok%C3%A9mon_Fusion#Stats  
 Typing takes into account this: https://infinitefusion.fandom.com/wiki/Pok%C3%A9mon_Fusion#Typing
 
-## Vanilla sprites
-Pokemon sprites are dynamically downloaded from here:   
-`https://img.pokemondb.net/sprites/black-white/normal/<pokemon_name>.png`  
-### Bulbasaur Example:  
-https://img.pokemondb.net/sprites/black-white/normal/bulbasaur.png  
-![Bulbasaur](https://img.pokemondb.net/sprites/black-white/normal/bulbasaur.png )  
+## sprites
 
-## Fusion sprites
-Fusion sprites are dynamically downloaded from here:  
-` https://raw.githubusercontent.com/Aegide/custom-fusion-sprites/main/CustomBattlers/<head_pokedex_id>.<body_pokedex_id>.png`   
+
+Fusion sprites and Base Sprites are dynamically downloaded from here:  
+`https://ifd-spaces.sfo2.cdn.digitaloceanspaces.com/custom/<head_pokedex_id>.<body_pokedex_id>.png`   
 ### Charizard + Blastoise Example:  
 
-https://raw.githubusercontent.com/Aegide/custom-fusion-sprites/main/CustomBattlers/9.6.png  
-![Bulbasaur](https://raw.githubusercontent.com/Aegide/custom-fusion-sprites/main/CustomBattlers/9.6.png   )
-(If the app can't find the sprite, it will try look under `master/Battlers`, `master/Battlers/<head_dex_id>` and 
-`autogen-fusion-sprites/master/Battlers/<head_dex_id>`)
+https://ifd-spaces.sfo2.cdn.digitaloceanspaces.com/custom/9.6.png  
+![Bulbasaur](https://ifd-spaces.sfo2.cdn.digitaloceanspaces.com/custom/9.6.png   )
+
 
 ### auto-py-to-exe
 The application is compiled to an .exe using [auto-py-to-exe](https://pypi.org/project/auto-py-to-exe/)
