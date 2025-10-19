@@ -5,12 +5,11 @@ import requests
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QTabWidget
 
-from data import utils
-from gui.dialog import UpdateDialog
+from ifc.data import utils
+from ifc.gui.dialog import UpdateDialog
 
-from gui.tabs.batch import BatchTab
-from gui.tabs.single import SingleTab
-from gui.tabs.type import TypeTab
+from ifc.gui.tabs.batch import BatchTab
+from ifc.gui.tabs.single import SingleTab
 from ifc import RESOURCES_PATH
 
 #  TODO:
@@ -50,7 +49,6 @@ class IFCWindow(QMainWindow):
         self.tabs = QTabWidget()
         self.tabs.addTab(SingleTab(), "Single")
         self.tabs.addTab(BatchTab(), "Batch")
-        self.tabs.addTab(TypeTab(), "Type")
 
         # And add them to the window
         self.setCentralWidget(self.tabs)

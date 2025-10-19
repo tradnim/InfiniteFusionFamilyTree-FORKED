@@ -1,11 +1,12 @@
 import logging
 import re
+import math
 from typing import List
 
 from PyQt6 import QtNetwork
-from PyQt6.QtCore import Qt, QByteArray, QUrl
+from PyQt6.QtCore import Qt, QByteArray, QUrl, QTimer
 from PyQt6.QtGui import QPixmap, QPalette, QColor
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QScrollArea, QLayout, QLabel
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QScrollArea, QLayout, QLabel, QPushButton
 
 from data import utils
 from gui.tabs import widgets
@@ -24,7 +25,10 @@ class IFCBaseTab(QWidget):
 
         self.font = utils.get_font()
         self.bold_font = utils.get_font(bold=True)
-
+        
+        # Debounce timer for buttons
+        self._debounce_timers = {}
+        
         # Manager used to load sprites quickly
         self.nam = QtNetwork.QNetworkAccessManager()
         self.nam.finished.connect(self.on_image_result)
@@ -101,16 +105,13 @@ class IFCBaseTab(QWidget):
                     IFCBaseTab.clear_layout(child.layout())
 
     @staticmethod
-    def set_pixmap(image: QByteArray, label: QLabel):
+    def set_pixmap(image: QByteArray, label: QLabel, source_url: str = None):
         """
         Given a QByteArray and a QLabel, it sets the image of the label.
         """
         pixmap = QPixmap()
-
         pixmap.loadFromData(image)
-
         pixmap = pixmap.scaledToHeight(utils.SPRITE_SIZE)
-
         label.setPixmap(pixmap)
 
     def on_image_result(self, reply: QtNetwork.QNetworkReply):
@@ -130,7 +131,7 @@ class IFCBaseTab(QWidget):
 
                 bytes_string = reply.readAll()
                 for label in labels:
-                    self.set_pixmap(bytes_string, label)
+                    self.set_pixmap(bytes_string, label, url)
                 widgets.URL2LABEL.delete(url)
 
             else:
@@ -160,10 +161,45 @@ class IFCBaseTab(QWidget):
                     widgets.URL2LABEL.put(url, label)
                     self.nam.get(qurl)
                 else:
-                    logging.warning(f"Could not find an alternative url for '{url}'")
+                        # Try one last fallback: if the url contains two numeric ids like
+                        # <head_id>.<body_id>.png, try the "generated" DigitalOcean path
+                        # before giving up.
+                        m = re.search(r'(\d+)\.(\d+)\.png$', url)
+                        if m:
+                            head_id, body_id = m.group(1), m.group(2)
+                            new_url = f"https://ifd-spaces.sfo2.cdn.digitaloceanspaces.com/generated/{head_id}.{body_id}.png"
+                            label = widgets.URL2LABEL.delete(url)
+                            qurl = QtNetwork.QNetworkRequest(QUrl(new_url))
+                            widgets.URL2LABEL.put(new_url, label)
+                            self.nam.get(qurl)
+                        else:
+                            logging.warning(f"Could not find an alternative url for '{url}'")
 
+    def setup_debounce(self, button: QPushButton, callback, cooldown_ms: int = 100):
+        """Setup debounce for a button with a cooldown period
+        
+        Args:
+            button: The button to debounce
+            callback: The function to call when button is pressed
+            cooldown_ms: Cooldown time in milliseconds (default 800ms = 0.8s)
+        """
+        timer = QTimer(self)
+        timer.setSingleShot(True)
+        self._debounce_timers[button] = timer
+        
+        def on_clicked():
+            if not timer.isActive():
+                callback()
+                button.setEnabled(False)
+                timer.start(cooldown_ms)
+                
+                def enable_button():
+                    button.setEnabled(True)
+                timer.timeout.connect(enable_button)
+                
+        button.clicked.connect(on_clicked)
+        
     def add_evoline_widgets(self, pkmn1: str, pkmn2: str, display_ab: bool = True, display_ba: bool = True):
-
         fusions_ab, fusions_ba = utils.get_fusions(pkmn1, pkmn2)
 
         self.output_layout.addStretch()

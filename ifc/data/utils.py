@@ -3,17 +3,17 @@ from typing import Tuple, List, Optional
 
 from PyQt6.QtGui import QFontDatabase, QFont
 
-from data.pokedex import get_evolution_list
-from data.pokemon import FusedPokemon
+from ifc.data.pokedex import get_evolution_list
+from ifc.data.pokemon import FusedPokemon
 from ifc import FONTS_PATH
 
 """ Short name for the app"""
-SHORTNAME: str = "IFC"
+SHORTNAME: str = "IFFT"
 """ Name of the app"""
-NAME: str = "InfiniteFusionCalculator by vittoema96"
+NAME: str = "InfiniteFusionFamilyTree Forked By Mindart"
 
 MAJOR: int = 0
-MINOR: int = 3
+MINOR: int = 4
 PATCH: int = 0
 
 """ Version of the app (in string form) """

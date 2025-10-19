@@ -77,9 +77,22 @@ class EvolineWidget(CustomWidget):
             widget.fetch_image(nam)
 
 
+class SpriteWidget(QLabel):
+    """A widget for displaying Pokémon sprites"""
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setFixedWidth(utils.SPRITE_SIZE)
+        self.setFixedHeight(utils.SPRITE_SIZE)
+        
+    def setPixmap(self, pixmap):
+        """Set the sprite image"""
+        scaled_pixmap = pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio, 
+                                    Qt.TransformationMode.SmoothTransformation)
+        super().setPixmap(scaled_pixmap)
+
 class FusionWidget(CustomWidget):
     """
-    A Widget containing a QLabel with the image of a fused pokemon
+    A Widget containing a SpriteWidget with the image of a fused pokemon
     and an InfoWidget with info about that pokemon.
     The items are disposed horizontally
     """
@@ -108,13 +121,13 @@ class FusionWidget(CustomWidget):
         # Create a horizontal layout
         layout = QHBoxLayout()
 
-        # Then create an image label and an info widget
-        self.image = QLabel()
+        # Create sprite widget and info widget
+        self.sprite_widget = SpriteWidget()
         self.info_box = InfoWidget(fusion)
 
         # Add everything to the layout
         layout.addStretch()
-        layout.addWidget(self.image)
+        layout.addWidget(self.sprite_widget)
         layout.addWidget(self.info_box)
         layout.addStretch()
 
@@ -123,7 +136,7 @@ class FusionWidget(CustomWidget):
 
     def fetch_image(self, nam: QNetworkAccessManager):
         url = self.fusion.get_sprite_url()
-        URL2LABEL.put(url, self.image)
+        URL2LABEL.put(url, self.sprite_widget)
         self.fusion.fetch_image(nam)
 
 

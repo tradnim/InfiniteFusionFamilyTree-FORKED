@@ -5,8 +5,8 @@ from typing import List
 import pandas as pd
 from pandas import DataFrame
 
-from data.enums import Type
-from data.pokemon import Pokemon
+from ifc.data.enums import Type
+from ifc.data.pokemon import Pokemon
 from ifc import RESOURCES_PATH
 
 _data: DataFrame = pd.read_csv(os.path.join(RESOURCES_PATH, 'data.csv'), index_col='ID')

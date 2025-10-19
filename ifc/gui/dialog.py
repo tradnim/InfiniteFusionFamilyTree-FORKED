@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QLabel
 import webbrowser
 
-from data import utils
+from ifc.data import utils
 
 
 class ConnectionErrorDialog(QDialog):

@@ -10,8 +10,8 @@ from PyQt6 import QtNetwork
 from PyQt6.QtCore import QUrl
 from PyQt6.QtNetwork import QNetworkAccessManager
 
-from data import pokedex
-from data.enums import Type
+from ifc.data import pokedex
+from ifc.data.enums import Type
 
 
 class AbstractPokemon(ABC):
@@ -137,7 +137,13 @@ class Pokemon(AbstractPokemon):
         return self._evoline
 
     def get_sprite_url(self) -> str:
-        return f"https://img.pokemondb.net/sprites/black-white/normal/{self.name}.png"
+        # Prefer custom DigitalOcean sprites by ID when available
+        try:
+            poke_id = pokedex.get_id_by_name(self.name)
+            return f"https://ifd-spaces.sfo2.cdn.digitaloceanspaces.com/custom/{poke_id}.png"
+        except Exception:
+            # Fallback to pokemondb if anything goes wrong
+            return f"https://img.pokemondb.net/sprites/black-white/normal/{self.name}.png"
 
 
 class FusedPokemon(AbstractPokemon):
@@ -175,5 +181,5 @@ class FusedPokemon(AbstractPokemon):
         from data import pokedex
         head_id = pokedex.get_id_by_name(self.head)
         body_id = pokedex.get_id_by_name(self.body)
-        return f"https://raw.githubusercontent.com/Aegide/custom-fusion-sprites/" \
-               f"main/CustomBattlers/{head_id}.{body_id}.png"
+        # FusionDex URL format: https://www.fusiondex.org/1.1/<head_id>/<body_id>.png
+        return f"https://ifd-spaces.sfo2.cdn.digitaloceanspaces.com/custom/{head_id}.{body_id}.png"

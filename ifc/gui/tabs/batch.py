@@ -43,7 +43,7 @@ class BatchTab(IFCBaseTab):
 
         self.fuse = QPushButton("Cross Fuse")
         self.fuse.setFont(self.bold_font)
-        self.fuse.pressed.connect(self.mix)
+        self.setup_debounce(self.fuse, self.mix)
 
         self.input_layout.addStretch()
         self.input_layout.addWidget(self.cbox)

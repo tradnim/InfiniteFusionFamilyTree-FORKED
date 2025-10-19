@@ -25,10 +25,10 @@ class SingleTab(IFCBaseTab):
         self.sprite1, self.cbox1, self.random1 = self.init_input()
         self.sprite2, self.cbox2, self.random2 = self.init_input()
 
-        # Create the FUSE button and connect it to update
+        # Create the FUSE button with debounce
         self.fuse_button = QPushButton("Fuse")
         self.fuse_button.setFont(self.bold_font)
-        self.fuse_button.pressed.connect(self.update_output)
+        self.setup_debounce(self.fuse_button, self.update_output)
 
         # Add everything to input_layout with the correct spaces
         self.input_layout.addStretch()
@@ -50,8 +50,9 @@ class SingleTab(IFCBaseTab):
         sprite.setFixedHeight(utils.SPRITE_SIZE)
         sprite.setFixedWidth(utils.SPRITE_SIZE)
         sprite.setStyleSheet(".QLabel{"
-                             "     border: 5px ridge gray;"
-                             "}")
+                           "    border: 5px ridge gray;"
+                           "}")
+                           
         cbox = QComboBox()
         cbox.setFont(self.font)
         cbox.addItems(pokedex.get_names())
